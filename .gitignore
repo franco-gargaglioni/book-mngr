@@ -11,7 +11,7 @@ node_modules
 dist
 dist-ssr
 dist-react
-dist-electronnp
+dist-electron
 *.local
 
 # Editor directories and files
