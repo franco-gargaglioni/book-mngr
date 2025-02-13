@@ -1,31 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.css';
+import SearchBar from './components/SearchBar.tsx';
+import SearchBarList from './components/SearchBarList.tsx';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface Item {
+    "Leído?": string;
+    "Name": string;
+    "Autor": string;
+    "Género": string;
+    "Idioma": string;
+    "Reseña": string;
+    "Préstamo": string;
+    "id": number;
 }
 
-export default App
+function App() {
+    const [results, setResults] = useState<Item[]>([]);
+
+    useEffect(() => {
+
+      const fetchBooks = async () => {
+          try {
+              //@ts-ignore
+              const books = await window.electron.subscribeBookList();
+              setResults(books);
+          } catch (err) {
+              console.error('Error subscribing to book list:', err);
+          }
+      };
+
+      fetchBooks();
+  }, []);
+
+    return (
+        <div>
+            <div className="searchBarContainer">
+                <SearchBar />
+                <SearchBarList results={results} />
+            </div>
+        </div>
+    );
+}
+
+export default App;
