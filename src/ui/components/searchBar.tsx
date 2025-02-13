@@ -1,6 +1,5 @@
 import {FaSearch} from "react-icons/fa"
 import "./SearchBar.css";
-import { ChangeEvent } from "react";
 
 
 interface SearchBarProps {

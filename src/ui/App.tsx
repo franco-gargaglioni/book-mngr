@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import BookInfo from './components/BookInfo.tsx'
 import './App.css';
-import SearchBar from './components/SearchBar.tsx';
+import SearchBar from './components/searchBar.tsx';
 import SearchBarList from './components/SearchBarList.tsx';
+import { SelectedBookProvider } from './context/SelectedBookContext';
 
 interface Item {
     "Leído?": string;
@@ -25,6 +27,7 @@ function App() {
               //@ts-ignore
               const books = await window.electron.subscribeBookList();
               setOriginalResults(books);
+              setResults(books);
           } catch (err) {
               console.error('Error subscribing to book list:', err);
           }
@@ -47,12 +50,16 @@ function App() {
 };
 
     return (
+      <SelectedBookProvider>
         <div>
             <div className="searchBarContainer">
               <SearchBar onSearch={handleSearch} />
                 <SearchBarList results={results} />
             </div>
+            <BookInfo />
         </div>
+      </SelectedBookProvider>
+
     );
 }
 

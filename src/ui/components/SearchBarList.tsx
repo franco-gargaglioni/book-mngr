@@ -17,7 +17,7 @@ export default function SearchbarList({results}: {results:Item[]} ){
     return (
         <div className="results-list">
             {
-                results.map((result, index) =>{
+                results.map((result) =>{
                     return <ul key={result.id}>
                         <SearchBarResult result={result} />
                     </ul>
