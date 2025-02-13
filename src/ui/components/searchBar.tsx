@@ -1,12 +1,18 @@
 import {FaSearch} from "react-icons/fa"
 import "./SearchBar.css";
+import { ChangeEvent } from "react";
 
-export default function SearchBar() {
+
+interface SearchBarProps {
+    onSearch: React.ChangeEventHandler<HTMLInputElement>;
+}
+
+export default function SearchBar({ onSearch }: SearchBarProps) {
 
     return (
         <div className="input-wrapper">        
             <FaSearch id="search-icon" />
-            <input placeholder="Search for you book..."/>
+            <input onChange={onSearch} placeholder="Search for you book..."/>
         </div>
     )
 }

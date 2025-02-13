@@ -16,6 +16,7 @@ interface Item {
 
 function App() {
     const [results, setResults] = useState<Item[]>([]);
+    const [originalResults, setOriginalResults] = useState<Item[]>([]);
 
     useEffect(() => {
 
@@ -23,7 +24,7 @@ function App() {
           try {
               //@ts-ignore
               const books = await window.electron.subscribeBookList();
-              setResults(books);
+              setOriginalResults(books);
           } catch (err) {
               console.error('Error subscribing to book list:', err);
           }
@@ -32,10 +33,23 @@ function App() {
       fetchBooks();
   }, []);
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = e.target.value.toLowerCase();
+
+    if (searchTerm === '') {
+        setResults(originalResults);
+    } else {
+        const filteredResults = originalResults.filter((item) =>
+            item.Name.toLowerCase().includes(searchTerm)
+        );
+        setResults(filteredResults);
+    }
+};
+
     return (
         <div>
             <div className="searchBarContainer">
-                <SearchBar />
+              <SearchBar onSearch={handleSearch} />
                 <SearchBarList results={results} />
             </div>
         </div>

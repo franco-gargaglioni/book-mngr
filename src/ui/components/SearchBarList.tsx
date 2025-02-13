@@ -1,4 +1,5 @@
 import './SearchBarList.css'
+import SearchBarResult from './SearchBarResult'
 
 interface Item {
     Leído?: string,
@@ -13,13 +14,12 @@ interface Item {
 
 
 export default function SearchbarList({results}: {results:Item[]} ){
-    console.log("|||||||||||||||||||||||||||||||||||||" + results)
     return (
         <div className="results-list">
             {
-                results.map((result) =>{
-                    return <ul>
-                        <li key={result.id}>{result.Name}</li>
+                results.map((result, index) =>{
+                    return <ul key={result.id}>
+                        <SearchBarResult result={result} />
                     </ul>
                 }
             )
