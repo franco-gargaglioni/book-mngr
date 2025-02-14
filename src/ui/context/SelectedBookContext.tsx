@@ -1,26 +1,6 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState,useEffect } from 'react';
 
-interface Item {
-    "Leído?": string;
-    "Name": string;
-    "Autor": string;
-    "Género": string;
-    "Idioma": string;
-    "Reseña": string;
-    "Préstamo": string;
-    "id": number;
-}
-
-interface Item {
-    "Leído?": string;
-    "Name": string;
-    "Autor": string;
-    "Género": string;
-    "Idioma": string;
-    "Reseña": string;
-    "Préstamo": string;
-    "id": number;
-}
+import {Item} from '../types/types.ts'
 
 interface SelectedBookContextType {
     selectedBook: Item | null;
@@ -34,6 +14,11 @@ export const SelectedBookContext = createContext<SelectedBookContextType>({
 
 export const SelectedBookProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [selectedBook, setSelectedBook] = useState<Item | null>(null);
+
+    useEffect(() => {
+        console.log('Selected Book Updated:', selectedBook); // Log when selectedBook changes
+    }, [selectedBook]);
+
 
     return (
         <SelectedBookContext.Provider value={{ selectedBook, setSelectedBook }}>

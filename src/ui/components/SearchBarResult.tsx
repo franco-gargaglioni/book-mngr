@@ -1,22 +1,17 @@
 import { useContext } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
 
-interface Item {
-    Leído?: string;
-    Name: string;
-    Autor: string;
-    Género: string;
-    Idioma: string;
-    Reseña: string;
-    Préstamo: string;
-    id: number;
-}
+
+import {Item} from '../types/types.ts'
+import './SearchBarResult.css'
+
 
 export default function SearchBarResult({ result }: { result: Item }) {
     const { setSelectedBook } = useContext(SelectedBookContext);
 
     const handleClick = () => {
         setSelectedBook(result);
+        console.log(result);
     };
 
     return (

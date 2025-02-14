@@ -1,9 +1,19 @@
 
 .App {
   background-color: rgb(82, 15, 224);
-  width: 100vh;
-  height: 100vw;
+  width: 100vw; 
+  height: 100vh; 
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
 }
+
+.main-container{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 
 .searchBarContainer {
   padding-top: 20vh;

@@ -1,24 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import BookInfo from './components/BookInfo.tsx'
 import './App.css';
 import SearchBar from './components/searchBar.tsx';
 import SearchBarList from './components/SearchBarList.tsx';
 import { SelectedBookProvider } from './context/SelectedBookContext';
+import { SelectedBookContext } from './context/SelectedBookContext';
 
-interface Item {
-    "Leído?": string;
-    "Name": string;
-    "Autor": string;
-    "Género": string;
-    "Idioma": string;
-    "Reseña": string;
-    "Préstamo": string;
-    "id": number;
-}
+import {Item} from './types/types.ts'
 
 function App() {
     const [results, setResults] = useState<Item[]>([]);
     const [originalResults, setOriginalResults] = useState<Item[]>([]);
+    const { selectedBook } = useContext(SelectedBookContext);
+
+    console.log('App Re-rendered. Selected Book:', selectedBook);
 
     useEffect(() => {
 
@@ -50,16 +45,17 @@ function App() {
 };
 
     return (
-      <SelectedBookProvider>
-        <div>
-            <div className="searchBarContainer">
-              <SearchBar onSearch={handleSearch} />
-                <SearchBarList results={results} />
-            </div>
-            <BookInfo />
+        <div className='main-container'>
+            {selectedBook ? (
+              
+                <BookInfo />
+            ) : (
+                <div className="searchBarContainer">
+                    <SearchBar onSearch={handleSearch} />
+                    <SearchBarList results={results} />
+                </div>
+            )}
         </div>
-      </SelectedBookProvider>
-
     );
 }
 

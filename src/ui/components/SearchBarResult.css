@@ -5,4 +5,5 @@
 
 .search-bar-result:hover {
     background-color: #efefef;
+    cursor: pointer;
 }

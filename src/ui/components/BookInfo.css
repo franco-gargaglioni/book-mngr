@@ -1,10 +1,10 @@
 .book-info {
-    max-width: 800px;
-    margin: 0 auto;
+    margin: 30px auto;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 90vh;
 }
 
 .book-info h1 {
@@ -20,6 +20,7 @@
 }
 
 .detail {
+    margin: 0.5rem;
     font-size: 1.1rem;
     color: #555;
 }
@@ -28,3 +29,43 @@
     color: #333;
     margin-right: 10px;
 }
+
+.button-back-to-search{
+    margin: 10rem;
+    align-items: center;
+    align-content: center;
+}
+
+.header-book-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+  .book-info-container:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+.column-book-info {
+    float: left;
+    padding: 10px;
+  }
+  
+  .left, .right {
+    width: 25%;
+  }
+  
+  .middle {
+    width: 50%;
+  }
+  
+  .button-book-info-container{
+    padding: 1%;
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+  }

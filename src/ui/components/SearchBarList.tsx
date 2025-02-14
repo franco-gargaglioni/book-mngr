@@ -1,16 +1,7 @@
 import './SearchBarList.css'
 import SearchBarResult from './SearchBarResult'
 
-interface Item {
-    Leído?: string,
-    Name: string,
-    Autor: string,
-    Género: string,
-    Idioma: string,
-    Reseña:string,
-    Préstamo: string,
-    id: number,
-  }
+import {Item} from '../types/types.ts'
 
 
 export default function SearchbarList({results}: {results:Item[]} ){

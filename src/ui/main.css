@@ -4,8 +4,16 @@
   padding: 0px;
 }
 
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: beige;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 a {
@@ -19,6 +27,7 @@ a:hover {
 
 
 h1 {
+  margin: 10px;
   font-size: 3.2em;
   line-height: 1.1;
 }
@@ -28,14 +37,17 @@ button {
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
+  color: rgba(255, 255, 255, 0.83);
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: #4e0e0ee1;
   cursor: pointer;
   transition: border-color 0.25s;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #fefe9e;
+  color: #fbfbaa;
 }
 button:focus,
 button:focus-visible {
