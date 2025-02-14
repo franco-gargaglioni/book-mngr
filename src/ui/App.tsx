@@ -3,7 +3,6 @@ import BookInfo from './components/BookInfo.tsx'
 import './App.css';
 import SearchBar from './components/searchBar.tsx';
 import SearchBarList from './components/SearchBarList.tsx';
-import { SelectedBookProvider } from './context/SelectedBookContext';
 import { SelectedBookContext } from './context/SelectedBookContext';
 
 import {Item} from './types/types.ts'

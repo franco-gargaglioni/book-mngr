@@ -1,17 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
-// import express from 'express';
-// import cors from 'cors';
 
 import { BrowserWindow } from "electron";
 
 import { fileURLToPath } from 'url';
 
 
-// const app = express();
-// const PORT = 3000;
-
-// app.use(cors());
 
 export function isDev(): boolean {
     return process.env.NODE_ENV === 'development';
@@ -32,30 +26,29 @@ interface Item {
     "id": number;
 }
 
-const POLLING_INTERVAL = 500;
 
 // const addIdToData = (data: Item[]): Item[] => {
 //     return data.map((item) => ({ ...item }));
 // };
 
-const writeDataToFile = (data: Item[], filePath: string) => {
-    const jsonData = JSON.stringify(data, null, 2);
-    fs.writeFile(filePath, jsonData, 'utf8', (err) => {
-        if (err) {
-            console.error('Error writing file:', err);
-        } else {
-            console.log('Data successfully written to file:', filePath);
-        }
-    });
-};
+// const writeDataToFile = (data: Item[], filePath: string) => {
+//     const jsonData = JSON.stringify(data, null, 2);
+//     fs.writeFile(filePath, jsonData, 'utf8', (err) => {
+//         if (err) {
+//             console.error('Error writing file:', err);
+//         } else {
+//             console.log('Data successfully written to file:', filePath);
+//         }
+//     });
+// };
 
-const initializeDataFile = (filePath: string) => {
-    if (!fs.existsSync(filePath)) {
-        const defaultData: Item[] = []; // Default empty array or initial data
-        fs.writeFileSync(filePath, JSON.stringify(defaultData, null, 2), 'utf8');
-        console.log('Created data file at:', filePath);
-    }
-};
+// const initializeDataFile = (filePath: string) => {
+//     if (!fs.existsSync(filePath)) {
+//         const defaultData: Item[] = []; // Default empty array or initial data
+//         fs.writeFileSync(filePath, JSON.stringify(defaultData, null, 2), 'utf8');
+//         console.log('Created data file at:', filePath);
+//     }
+// };
 
 // const addNewBook = () => {
 //     // Correct path: Look for data.json in dist-electron/data
