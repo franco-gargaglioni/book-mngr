@@ -10,52 +10,58 @@ import {Item} from './types/types.ts'
 function App() {
     const [results, setResults] = useState<Item[]>([]);
     const [originalResults, setOriginalResults] = useState<Item[]>([]);
-    const { selectedBook } = useContext(SelectedBookContext);
-
+    const [selectedBook, setSelectedBook] = useState<Item | null>(null);
+    const [isWriting, setIsWriting] = useState(false);
+  
     console.log('App Re-rendered. Selected Book:', selectedBook);
-
+  
     useEffect(() => {
-
       const fetchBooks = async () => {
-          try {
-              //@ts-ignore
-              const books = await window.electron.subscribeBookList();
-              setOriginalResults(books);
-              setResults(books);
-          } catch (err) {
-              console.error('Error subscribing to book list:', err);
-          }
+        try {
+          //@ts-ignore
+          const books = await window.electron.getBookList();
+          setOriginalResults(books);
+          setResults(books);
+        } catch (err) {
+          console.error('Error subscribing to book list:', err);
+        }
       };
-
+  
       fetchBooks();
-  }, []);
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value.toLowerCase();
-
-    if (searchTerm === '') {
+      return () => {
+      };
+    }, []);
+  
+  
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setIsWriting(true);
+      const searchTerm = e.target.value.toLowerCase();
+  
+      if (searchTerm === '') {
+        setIsWriting(false);
         setResults(originalResults);
-    } else {
+      } else {
         const filteredResults = originalResults.filter((item) =>
-            item.Name.toLowerCase().includes(searchTerm)
+          item.Name.toLowerCase().includes(searchTerm)
         );
         setResults(filteredResults);
-    }
-};
-
+      }
+    };
+  
     return (
+      <SelectedBookContext.Provider value={{ selectedBook, setSelectedBook }}>
         <div className='main-container'>
-            {selectedBook ? (
-              
-                <BookInfo />
-            ) : (
-                <div className="searchBarContainer">
-                    <SearchBar onSearch={handleSearch} />
-                    <SearchBarList results={results} />
-                </div>
-            )}
+          {selectedBook ? (
+            <BookInfo />
+          ) : (
+            <div className="searchBarContainer">
+              <SearchBar onSearch={handleSearch} />
+              {isWriting ? <SearchBarList results={results} /> : <></>}
+            </div>
+          )}
         </div>
+      </SelectedBookContext.Provider>
     );
-}
+  }
 
 export default App;

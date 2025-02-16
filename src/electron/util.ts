@@ -1,8 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { BrowserWindow } from "electron";
-
+import { app, BrowserWindow } from "electron";
 import { fileURLToPath } from 'url';
 
 
@@ -14,6 +13,13 @@ export function isDev(): boolean {
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const filePath = isDev()
+    ? path.resolve(__dirname, 'data/data.json') // Development path
+    : path.resolve(app.getAppPath(), 'data/data.json'); // Production path
+
+
+
 
 interface Item {
     "Leído?": string;
@@ -138,9 +144,31 @@ interface Item {
 //     });
 // }
 
-export function watchDataFile(mainWindow: BrowserWindow) {
-    const filePath = path.resolve(__dirname, 'data/data.json');
+export async function updateDataFile(mainWindow: BrowserWindow, updatedData: any, prevData: any): Promise<{ success: boolean; error?: string; updatedData?: any; }> {
 
+    try {
+        console.log(updatedData);
+        const mergedData = prevData.map((item : any) =>
+            item.Name === updatedData.Name ? { ...item, ...updatedData } : item
+        );
+        await fs.promises.writeFile(filePath, JSON.stringify(mergedData, null, 2), 'utf8');
+        console.log('Data file updated successfully.');
+
+        
+        // Send the updated data to the frontend
+        mainWindow.webContents.send('bookList', mergedData);
+
+        // Return the specific updated book
+        const updatedBook = mergedData.find((item: any) => item.Name === updatedData.Name);
+    return { success: true, updatedData: updatedBook };
+    } catch (err: any) {
+        console.error('Error writing file:', err.message);
+        return { success: false, error: err.message };
+    }
+}
+
+export function watchDataFile(mainWindow: BrowserWindow) {
+    console.log(filePath);
 
     // Send initial data
     fs.readFile(filePath, 'utf8', (err, jsonData) => {

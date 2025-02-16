@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { watchDataFile, isDev } from './util.js';
+import { watchDataFile, isDev, updateDataFile } from './util.js';
 import { getPreloadPath } from './pathResolver.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,6 +21,13 @@ app.on('ready', () => {
             const jsonData = await fs.promises.readFile(filePath, 'utf8');
             const data = JSON.parse(jsonData);
             return data;
+        });
+        ipcMain.handle('updateData', async (event, updatedData) => {
+            const filePath = path.resolve(__dirname, 'data/data.json');
+            const jsonData = await fs.promises.readFile(filePath, 'utf8');
+            const prevData = JSON.parse(jsonData);
+            const result = await updateDataFile(mainWindow, updatedData, prevData);
+            return result;
         });
         if (isDev()) {
             mainWindow.loadURL('http://localhost:5123'); // Load the React app in development

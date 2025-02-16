@@ -1,60 +1,143 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
+import './BookInfo.css';
 
-import './BookInfo.css'
+import { Item } from '../types/types.js'; 
 
 export default function BookInfo() {
-    const { selectedBook, setSelectedBook } = useContext(SelectedBookContext);
+  const { selectedBook, setSelectedBook } = useContext(SelectedBookContext);
+  const [isEditing, setIsEditing] = useState(false);
 
-    console.log('BookInfo Rendered. Selected Book:', selectedBook);
+  console.log("RE RENDERED COMPONENT");
 
-    if (!selectedBook) {
-        return null;
+  if (!selectedBook) {
+    return null;
+  }
+
+  const handleBack = () => {
+    setSelectedBook(null);
+  };
+
+  const handleEdit = () => {
+    setIsEditing((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    console.log('Selected Book in BookInfo:', selectedBook);
+  }, [selectedBook]);
+  
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent default form submission
+  
+    const fd = new FormData(e.currentTarget);
+    const editedBook = Object.fromEntries(fd.entries()) as unknown as Item;
+    console.log('Edited Book:', editedBook);
+  
+    try {
+      //@ts-ignore
+      const result = await window.electron.updateData(editedBook);
+      if (result.success) {
+        console.log('Data was updated successfully:', result.updatedData);
+  
+        // Update the selectedBook state with the new data
+        setSelectedBook(result.updatedData);
+        console.log("THIS IS THE BOOK IN THE CONTEXT ------- " + result.updatedData.Leído);
+        setIsEditing(false);
+      }
+    } catch (err) {
+      console.error('Error updating data:', err);
     }
+  };
 
-    const handleBack = () => {
-        setSelectedBook(null);
-    };
-
-    return (
-        <div className="book-info">
-            <div className='header-book-info-container'>
-                <h1>{selectedBook.Name}</h1>
-            </div>
-            <div className='book-info-container'>
-                <div className='column-book-info left'>
-                </div>
-                <div className='column-book-info middle'>
-                    <div className="book-details">
-                        <div className="detail">
-                            <strong>Autor:</strong> {selectedBook.Autor}
-                        </div>
-                        <div className="detail">
-                            <strong>Género:</strong> {selectedBook.Género}
-                        </div>
-                        <div className="detail">
-                            <strong>Idioma:</strong> {selectedBook.Idioma}
-                        </div>
-                        <div className="detail">
-                            <strong>Leído?:</strong> {selectedBook['Leído']}
-                        </div>
-                        <div className="detail">
-                            <strong>Préstamo:</strong> {selectedBook.Préstamo}
-                        </div>
-                        <div className="detail">
-                            <strong>Reseña:</strong> {selectedBook.Reseña}
-                        </div>
-                    </div>
-                </div>
-                <div className='column-book-info right'>
-                </div>
-            </div>
-            <div className='button-book-info-container'>
-                <div className='middle'></div>
-                    <button className='button-back-to-search left' onClick={handleBack}>Back to Search</button>
-                <div className='left'></div>
-                <div className='right'></div>
-            </div>
+  return (
+    <form  onSubmit={handleSubmit} className="book-info">
+      <div className="header-book-info-container">
+        <h1>{selectedBook.Name}</h1>
+        <label htmlFor='Name'>
+        </label>
+        <input id="hiddenName" type="text" defaultValue={selectedBook.Name} name='Name'></input>
+      </div>
+      <div className="book-info-container">
+        <div className="column-book-info left">
         </div>
-    );
+        <div className="column-book-info middle">
+          <div className="book-details">
+            <div className="detail row">
+              <label htmlFor="autor">
+                <strong>Autor:</strong>
+              </label>
+              <input id="autor" type="text" defaultValue={selectedBook.Autor} disabled={isEditing} name='Autor'/>
+            </div>
+            <div className="detail row">
+              <label htmlFor="genero">
+                <strong>Género:</strong>
+              </label>
+              <input id="genero" type="text" defaultValue={selectedBook.Género} name='Género'/>
+            </div>
+            <div className="detail row">
+              <label htmlFor="idioma">
+                <strong>Idioma:</strong>
+              </label>
+              <input id="idioma" type="text" defaultValue={selectedBook.Idioma} name='Idioma'/>
+            </div>
+            <div className="detail row">
+              <label htmlFor="leido">
+                <strong>Leído?:</strong>
+              </label>
+              <input id="leido" type="text" defaultValue={selectedBook['Leído']} name='Leído'/>
+            </div>
+            <div className="detail row">
+              <label htmlFor="prestamo">
+                <strong>Préstamo:</strong>
+              </label>
+              <input id="prestamo" type="text" defaultValue={selectedBook.Préstamo} name='Préstamo'/>
+            </div>
+            <div className="detail row">
+              <label htmlFor="resena">
+                <strong>Reseña:</strong>
+              </label>
+              <input id="resena" type="text" defaultValue={selectedBook.Reseña}  name='Reseña'/>
+            </div>
+          </div>
+          <div className="book-info-buttons">
+            <button className="button-back-to-search" onClick={handleBack}>
+              Back to Search
+            </button>
+            {isEditing ? 
+              <>
+              
+                <button
+                type='button'
+                className={"button-edit" + (isEditing ? " editing" : "")}
+                disabled={isEditing}
+                onClick={handleEdit}
+                >
+                Edit
+                </button>
+                <button
+                type='submit'
+                className={"button-edit"
+                }
+                >
+                Save
+                </button>
+                </>
+                : 
+                
+                <button
+                type='button'
+                className={"button-edit" + (isEditing ? " editing" : "")}
+                onClick={handleEdit}
+                >
+                Edit
+                </button>
+            }
+
+          </div>
+        </div>
+        <div className="column-book-info right">
+        </div>
+      </div>
+    </form>
+  );
 }
