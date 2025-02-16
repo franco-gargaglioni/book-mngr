@@ -1,71 +1,103 @@
 .book-info {
-    margin: 30px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 90vh;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 90vh;
 }
 
 .book-info h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .book-details {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail.row {
+  display: flex;
+  align-items: center;
+}
+
+.detail.row label {
+  flex: 0 0 100px;
+  margin-right: 10px;
+}
+
+.detail.row input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1.1rem;
 }
 
 .detail {
-    margin: 0.5rem;
-    font-size: 1.1rem;
-    color: #555;
+  margin: 0.5rem;
+  font-size: 1.1rem;
+  color: #555;
 }
 
 .detail strong {
-    color: #333;
-    margin-right: 10px;
+  color: #333;
+  margin-right: 10px;
 }
 
-.button-back-to-search{
-    margin: 10rem;
-    align-items: center;
-    align-content: center;
+/* Remove large margins from buttons */
+.button-back-to-search,
+.button-edit {
+  display: inline-flex;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: ellipsis;
+  align-items: center;
+  align-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
+/* Editing state styling */
+.editing {
+  color: rgba(23, 23, 2, 0.522);
+  background-color: rgba(255, 0, 0, 0.219);
+}
+
+/* Header container remains centered */
 .header-book-info-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
 }
 
-  .book-info-container:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+/* Clear floats */
+.book-info-container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 
 .column-book-info {
-    float: left;
-    padding: 10px;
-  }
-  
-  .left, .right {
-    width: 25%;
-  }
-  
-  .middle {
-    width: 50%;
-  }
-  
-  .button-book-info-container{
-    padding: 1%;
-    min-width: 100%;
-    display: flex;
-    align-items: center;
-    align-content: center;
-  }
+  float: left;
+  padding: 10px;
+}
+
+.left,
+.right {
+  width: 25%;
+}
+
+.middle {
+  width: 50%;
+}
+
+.book-info-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}

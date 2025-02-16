@@ -2,7 +2,7 @@ import {app, BrowserWindow,ipcMain } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { watchDataFile, isDev } from './util.js';
+import { watchDataFile, isDev, updateDataFile } from './util.js';
 import { getPreloadPath } from './pathResolver.js';
 
 
@@ -26,6 +26,11 @@ app.on('ready', () => {
             const jsonData = await fs.promises.readFile(filePath, 'utf8');
             const data = JSON.parse(jsonData);
             return data;
+        });
+
+        ipcMain.handle('updateData', async (event, updatedData) => {
+            const result = await updateDataFile(updatedData);
+            return result;
         });
 
         if (isDev()) {

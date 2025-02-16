@@ -138,6 +138,18 @@ interface Item {
 //     });
 // }
 
+export async function updateDataFile(updatedData: any): Promise<{ success: boolean; error?: string; updatedData?: any }> {
+    const filePath = path.resolve(__dirname, 'data/data.json');
+    try {
+        await fs.promises.writeFile(filePath, JSON.stringify(updatedData, null, 2), 'utf8');
+        console.log('Data file updated successfully.');
+        return { success: true, updatedData };
+    } catch (err: any) {
+        console.error('Error writing file:', err.message);
+        return { success: false, error: err.message };
+    }
+}
+
 export function watchDataFile(mainWindow: BrowserWindow) {
     const filePath = path.resolve(__dirname, 'data/data.json');
 

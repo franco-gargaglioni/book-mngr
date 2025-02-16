@@ -11,6 +11,7 @@ function App() {
     const [results, setResults] = useState<Item[]>([]);
     const [originalResults, setOriginalResults] = useState<Item[]>([]);
     const { selectedBook } = useContext(SelectedBookContext);
+    const [isWriting, setIsWriting] = useState(false);
 
     console.log('App Re-rendered. Selected Book:', selectedBook);
 
@@ -19,7 +20,7 @@ function App() {
       const fetchBooks = async () => {
           try {
               //@ts-ignore
-              const books = await window.electron.subscribeBookList();
+              const books = await window.electron.getBookList();
               setOriginalResults(books);
               setResults(books);
           } catch (err) {
@@ -31,9 +32,11 @@ function App() {
   }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsWriting(true);
     const searchTerm = e.target.value.toLowerCase();
 
     if (searchTerm === '') {
+        setIsWriting(false);
         setResults(originalResults);
     } else {
         const filteredResults = originalResults.filter((item) =>
@@ -51,7 +54,7 @@ function App() {
             ) : (
                 <div className="searchBarContainer">
                     <SearchBar onSearch={handleSearch} />
-                    <SearchBarList results={results} />
+                    {isWriting ? <SearchBarList results={results} /> : <></> }
                 </div>
             )}
         </div>
