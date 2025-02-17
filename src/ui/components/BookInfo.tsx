@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
 
 import {FaTrash} from "react-icons/fa"
@@ -26,12 +26,21 @@ export default function BookInfo() {
     setIsEditing((prevState) => !prevState);
   };
 
-  useEffect(() => {
-    console.log('Selected Book in BookInfo:', selectedBook);
-  }, [selectedBook]);
+  const handleDelete  = async () => {
+    console.log("deleting...")
+    try{
+        //@ts-ignore
+        const result = await window.electron.deleteData(selectedBook);
+        if (result.success) {
+            setSelectedBook(null);
+        }
+      } catch (err) {
+        console.error('Error updating data:', err);
+      }
+  };
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
   
     const fd = new FormData(e.currentTarget);
     const editedBook = Object.fromEntries(fd.entries()) as unknown as Item;
@@ -43,9 +52,7 @@ export default function BookInfo() {
       if (result.success) {
         console.log('Data was updated successfully:', result.updatedData);
   
-        // Update the selectedBook state with the new data
         setSelectedBook(result.updatedData);
-        console.log("THIS IS THE BOOK IN THE CONTEXT ------- " + result.updatedData.Leído);
         setIsEditing(false);
       }
     } catch (err) {
@@ -143,7 +150,7 @@ export default function BookInfo() {
         <div className="column-book-info right">
             <div className="delete-icon-container">
                 <label>Delete book</label>
-                <button title="Delete this book" >
+                <button type="button" title="Delete this book" onClick={handleDelete} >
                     <FaTrash id="delete-icon" />
                 </button>
             </div>
