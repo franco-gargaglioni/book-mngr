@@ -1,5 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
+
+import {FaTrash} from "react-icons/fa"
 import './BookInfo.css';
 
 import { Item } from '../types/types.js'; 
@@ -52,7 +54,7 @@ export default function BookInfo() {
   };
 
   return (
-    <form  onSubmit={handleSubmit} className="book-info">
+    <form  onSubmit={handleSubmit} className={"book-info " + (isEditing? "input-editing" : "")}>
       <div className="header-book-info-container">
         <h1>{selectedBook.Name}</h1>
         <img src={iconImage}
@@ -114,7 +116,6 @@ export default function BookInfo() {
                 type='button'
                 className={"button-edit" + (isEditing ? " editing" : "")}
                 onClick={handleEdit}
-                disabled={true}
                 >
                 Edit
                 </button>
@@ -140,7 +141,14 @@ export default function BookInfo() {
           </div>
         </div>
         <div className="column-book-info right">
+            <div className="delete-icon-container">
+                <label>Delete book</label>
+                <button title="Delete this book" >
+                    <FaTrash id="delete-icon" />
+                </button>
+            </div>
         </div>
+
       </div>
     </form>
   );

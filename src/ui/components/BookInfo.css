@@ -5,7 +5,7 @@ html, body, #root {
 }
 
 
-h1, h2, h3 {
+h1, h2, h3,h4 {
   font-family: 'Georgia', 'Palatino Linotype', serif;
   padding-bottom: 1.5rem;
 }
@@ -19,6 +19,10 @@ h1, h2, h3 {
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   border: 1px solid #e2d6c8;
+}
+
+.input-editing input {
+border-color:  #ff5722 !important;
 }
 
 .header-book-info-container {
@@ -119,21 +123,62 @@ h1, h2, h3 {
   color: #fff;
 }
 
-.button-edit:hover {
-  border-color: transparent;
-  color:#fff;
-  cursor: default;
-}
-
 .editing {
   background-color: #a1887f;
   color: #fff;
 }
 
+
+.delete-icon-container:hover {
+  border: 1px solid #d3c4a6;
+  border-radius: 6px;
+  background-color: #fffdf8;
+  border-width: 1px;
+}
+
+/* Delete Icon Container Styles */
+.delete-icon-container {
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.delete-icon-container label {
+  font-size: 1rem;
+  color: #5a4631;
+  margin-bottom: 0.5rem;
+}
+
+.delete-icon-container button {
+  background: transparent;
+  border: none;
+  padding: 0.2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+  color: #6d4c41; /* default icon color */
+}
+
+/* Hover effect: slightly enlarge the icon and change its color */
+.delete-icon-container button:hover {
+  transform: scale(1.2);
+  color: #ff5722;
+}
+
+/* Remove any default focus outline */
+.delete-icon-container button:focus {
+  outline: none;
+}
+
+
 #hiddenName {
   display: none;
 }
 
+#delete-icon {
+  size: small;
+}
 
 @media (max-width: 768px) {
   .book-info-container {
