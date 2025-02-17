@@ -1,71 +1,148 @@
+
+html, body, #root {
+  background: #f5e9d3; 
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+
+h1, h2, h3 {
+  font-family: 'Georgia', 'Palatino Linotype', serif;
+  padding-bottom: 1.5rem;
+}
+
+
 .book-info {
-    margin: 30px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 90vh;
-}
-
-.book-info h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.book-details {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.detail {
-    margin: 0.5rem;
-    font-size: 1.1rem;
-    color: #555;
-}
-
-.detail strong {
-    color: #333;
-    margin-right: 10px;
-}
-
-.button-back-to-search{
-    margin: 10rem;
-    align-items: center;
-    align-content: center;
+  margin: 40px auto;
+  padding: 30px;
+  max-width: 800px;
+  background-color: #fffdf8; 
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e2d6c8;
 }
 
 .header-book-info-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
-  .book-info-container:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+.header-book-info-container h1 {
+  display: inline-flex;
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+  color: #3e2c1f;
+}
 
-.column-book-info {
-    float: left;
-    padding: 10px;
+.book-info-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.column-book-info.left,
+.column-book-info.right {
+  flex: 1;
+}
+
+.column-book-info.middle {
+  flex: 2;
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail.row {
+  display: flex;
+  align-items: center;
+}
+
+.detail.row label {
+  flex: 0 0 120px;
+  font-weight: bold;
+  color: #5a4631;
+  margin-right: 15px;
+}
+
+.detail.row input {
+  flex: 1;
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  border: 1px solid #d3c4a6;
+  border-radius: 6px;
+  background-color: #fffdf8;
+  color: #3e2c1f;
+}
+
+.book-info.editing-mode .detail.row input {
+  border-color: #ff5722;
+}
+
+.book-info-buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.button-back-to-search,
+.button-edit {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.25s, border-color 0.25s;
+}
+
+.button-back-to-search {
+  background-color: #6d4c41;
+  color: #fff;
+}
+
+.button-save {
+  background-color: #6d4c41;
+  color: #fff;
+}
+
+.button-back-to-search:hover {
+  background-color: #7a5d54;
+}
+
+.button-edit {
+  background-color: #6d4c41;
+  color: #fff;
+}
+
+.button-edit:hover {
+  border-color: transparent;
+  color:#fff;
+  cursor: default;
+}
+
+.editing {
+  background-color: #a1887f;
+  color: #fff;
+}
+
+#hiddenName {
+  display: none;
+}
+
+
+@media (max-width: 768px) {
+  .book-info-container {
+    flex-direction: column;
   }
-  
-  .left, .right {
-    width: 25%;
+  .column-book-info.middle {
+    width: 100%;
   }
-  
-  .middle {
-    width: 50%;
+  .detail.row label {
+    flex: 0 0 100px;
   }
-  
-  .button-book-info-container{
-    padding: 1%;
-    min-width: 100%;
-    display: flex;
-    align-items: center;
-    align-content: center;
-  }
+}
