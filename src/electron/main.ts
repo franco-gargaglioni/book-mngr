@@ -29,7 +29,10 @@ app.on('ready', () => {
         });
 
         ipcMain.handle('updateData', async (event, updatedData) => {
-            const result = await updateDataFile(updatedData);
+            const filePath = path.resolve(__dirname, 'data/data.json');
+            const jsonData = await fs.promises.readFile(filePath, 'utf8');
+            const prevData = JSON.parse(jsonData);
+            const result = await updateDataFile(mainWindow,updatedData,prevData);
             return result;
         });
 

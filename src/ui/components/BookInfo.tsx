@@ -1,12 +1,16 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
 import './BookInfo.css';
 
 import { Item } from '../types/types.js'; 
 
+import iconImage from "../assets/quill-pen.png"
+
 export default function BookInfo() {
   const { selectedBook, setSelectedBook } = useContext(SelectedBookContext);
   const [isEditing, setIsEditing] = useState(false);
+
+  console.log("RE RENDERED COMPONENT");
 
   if (!selectedBook) {
     return null;
@@ -20,32 +24,44 @@ export default function BookInfo() {
     setIsEditing((prevState) => !prevState);
   };
 
+  useEffect(() => {
+    console.log('Selected Book in BookInfo:', selectedBook);
+  }, [selectedBook]);
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    console.log('handleSubmit');
+    e.preventDefault(); // Prevent default form submission
+  
     const fd = new FormData(e.currentTarget);
     const editedBook = Object.fromEntries(fd.entries()) as unknown as Item;
-    try{
-        //@ts-ignore
-        const result = await window.electron.updateData(editedBook);
-        if (result.success) {
+    console.log('Edited Book:', editedBook);
+  
+    try {
+      //@ts-ignore
+      const result = await window.electron.updateData(editedBook);
+      if (result.success) {
         console.log('Data was updated successfully:', result.updatedData);
-        }
-    } catch (err){
-        console.error('Error subscribing to book list:', err);
+  
+        // Update the selectedBook state with the new data
+        setSelectedBook(result.updatedData);
+        console.log("THIS IS THE BOOK IN THE CONTEXT ------- " + result.updatedData.Leído);
+        setIsEditing(false);
+      }
+    } catch (err) {
+      console.error('Error updating data:', err);
     }
-
-    
   };
 
   return (
     <form  onSubmit={handleSubmit} className="book-info">
       <div className="header-book-info-container">
         <h1>{selectedBook.Name}</h1>
+        <img src={iconImage}
+         alt="quill icon" style={{width: 24, height: 24, display: 'inline-block'}} />
+        <label htmlFor='Name'>
+        </label>
+        <input id="hiddenName" type="text" defaultValue={selectedBook.Name} name='Name'></input>
       </div>
-      <div className="book-info-container">
+      <div className={"book-info-container " + (isEditing ? 'input-editing' : '')}>
         <div className="column-book-info left">
         </div>
         <div className="column-book-info middle">
@@ -54,37 +70,37 @@ export default function BookInfo() {
               <label htmlFor="autor">
                 <strong>Autor:</strong>
               </label>
-              <input id="autor" type="text" defaultValue={selectedBook.Autor} disabled={isEditing} name='Autor'/>
+              <input id="autor" type="text" defaultValue={selectedBook.Autor} disabled={!isEditing} name='Autor'/>
             </div>
             <div className="detail row">
               <label htmlFor="genero">
                 <strong>Género:</strong>
               </label>
-              <input id="genero" type="text" defaultValue={selectedBook.Género} name='Género'/>
+              <input id="genero" type="text" defaultValue={selectedBook.Género} disabled={!isEditing} name='Género'/>
             </div>
             <div className="detail row">
               <label htmlFor="idioma">
                 <strong>Idioma:</strong>
               </label>
-              <input id="idioma" type="text" defaultValue={selectedBook.Idioma} name='Idioma'/>
+              <input id="idioma" type="text" defaultValue={selectedBook.Idioma} disabled={!isEditing} name='Idioma'/>
             </div>
             <div className="detail row">
               <label htmlFor="leido">
                 <strong>Leído?:</strong>
               </label>
-              <input id="leido" type="text" defaultValue={selectedBook['Leído']} name='Leído'/>
+              <input id="leido" type="text" defaultValue={selectedBook['Leído']} disabled={!isEditing} name='Leído'/>
             </div>
             <div className="detail row">
               <label htmlFor="prestamo">
                 <strong>Préstamo:</strong>
               </label>
-              <input id="prestamo" type="text" defaultValue={selectedBook.Préstamo} name='Préstamo'/>
+              <input id="prestamo" type="text" defaultValue={selectedBook.Préstamo} disabled={!isEditing} name='Préstamo'/>
             </div>
             <div className="detail row">
               <label htmlFor="resena">
                 <strong>Reseña:</strong>
               </label>
-              <input id="resena" type="text" defaultValue={selectedBook.Reseña}  name='Reseña'/>
+              <input id="resena" type="text" defaultValue={selectedBook.Reseña}  disabled={!isEditing} name='Reseña'/>
             </div>
           </div>
           <div className="book-info-buttons">
@@ -92,17 +108,28 @@ export default function BookInfo() {
               Back to Search
             </button>
             {isEditing ? 
+              <>
+              
                 <button
-                type='submit'
+                type='button'
                 className={"button-edit" + (isEditing ? " editing" : "")}
                 onClick={handleEdit}
+                disabled={true}
+                >
+                Edit
+                </button>
+                <button
+                type='submit'
+                className={"button-save"
+                }
                 >
                 Save
                 </button>
-                
+                </>
                 : 
                 
                 <button
+                type='button'
                 className={"button-edit" + (isEditing ? " editing" : "")}
                 onClick={handleEdit}
                 >

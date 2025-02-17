@@ -16,7 +16,7 @@ export const SelectedBookProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const [selectedBook, setSelectedBook] = useState<Item | null>(null);
 
     useEffect(() => {
-        console.log('Selected Book Updated:', selectedBook); // Log when selectedBook changes
+        console.log('Selected Book Updated:', selectedBook);
     }, [selectedBook]);
 
 
