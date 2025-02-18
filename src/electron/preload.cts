@@ -16,9 +16,11 @@ contextBridge.exposeInMainWorld('electron', {
       ipcRenderer.removeListener('bookList', callback);
     },
     deleteData: async (deleteData: any) => {
-        console.log("llego a preload")
         const result = await ipcRenderer.invoke('deleteBook', deleteData);
-        console.log("paso IPC renderer")
+        return result;
+      },
+      createNewBook: async (newBook: any) => {
+        const result = await ipcRenderer.invoke('createNewBook', newBook);
         return result;
       },
   });

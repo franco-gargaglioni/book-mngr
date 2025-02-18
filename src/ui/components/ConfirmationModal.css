@@ -73,4 +73,12 @@
   .confirm-buttons button.cancel:hover {
     background-color: #bbb;
   }
+
+  .confirm-buttons button.confirmCreate {
+    background-color: #35bb00;
+    color: white;
+  }
   
+  .confirm-buttons button.confirmCreate:hover {
+    background-color: #3ed802;
+  }

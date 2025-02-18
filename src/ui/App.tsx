@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import {FaPlus} from "react-icons/fa";
 import BookInfo from './components/BookInfo.tsx'
+import NewBookForm from './components/NewBookForm.tsx';
 import './App.css';
 import SearchBar from './components/searchBar.tsx';
 import SearchBarList from './components/SearchBarList.tsx';
@@ -13,8 +14,10 @@ function App() {
     const [originalResults, setOriginalResults] = useState<Item[]>([]);
     const [selectedBook, setSelectedBook] = useState<Item | null>(null);
     const [isWriting, setIsWriting] = useState(false);
-  
-    console.log('App Re-rendered. Selected Book:', selectedBook);
+    const [createNewBook, setCreateNewBook] = useState(false);
+
+    //Para que no aparezca scroll (feo)
+    document.body.style.overflow = "hidden"
   
     useEffect(() => {
       const fetchBooks = async () => {
@@ -35,7 +38,6 @@ function App() {
 
     useEffect(() => {
         const handleBookListUpdate = (_event: any, updatedBooks: Item[]) => {
-          console.log('Received updated book list via IPC:', updatedBooks);
           setOriginalResults(updatedBooks);
           setResults(updatedBooks);
         };
@@ -64,29 +66,39 @@ function App() {
         setResults(filteredResults);
       }
     };
-  
-    return (
-      <SelectedBookContext.Provider value={{ selectedBook, setSelectedBook }}>
-        <div className='main-container'>
-            <div className='elements-container'>
-                {selectedBook ? (
-                    <BookInfo />
-                ) : (
-                    <div className="searchBarContainer">
-                    <SearchBar onSearch={handleSearch} />
-                    {isWriting ? <SearchBarList results={results} /> : <></>}
-                    </div>
-                )}
-                <div className='button-add-container'>
-                    <button>
-                        <FaPlus></FaPlus>
-                    </button>
-                </div>
-            </div>
 
-        </div>
-      </SelectedBookContext.Provider>
-    );
+    const handleCreateNewBook = () => {
+        setCreateNewBook(true);
+    }
+  
+
+    return (
+        <SelectedBookContext.Provider value={{ selectedBook, setSelectedBook, createNewBook, setCreateNewBook }}>
+          <div className='main-container'> 
+            {(() => {
+              if (createNewBook) {
+                return <NewBookForm />;
+              } else if (selectedBook) {
+                return <BookInfo />;
+              } else {
+                return (
+                  <div className='elements-container'>
+                    <div className="searchBarContainer">
+                      <SearchBar onSearch={handleSearch} />
+                      {isWriting ? <SearchBarList results={results} /> : null}
+                    </div>
+                    <div className='button-add-container'>
+                      <button onClick={handleCreateNewBook}>
+                        <FaPlus />
+                      </button>
+                    </div>
+                  </div>
+                );
+              }
+            })()}
+          </div>
+        </SelectedBookContext.Provider>
+      );
   }
 
 export default App;

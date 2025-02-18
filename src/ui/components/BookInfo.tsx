@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
 import ConfirmationModal from "./ConfirmationModal.tsx"
+import InputForm from './InputForm.tsx';
 
 import {FaArrowLeft, FaTrash} from "react-icons/fa"
 import './BookInfo.css';
@@ -87,42 +88,24 @@ export default function BookInfo() {
             </div>
             <div className="column-book-info middle">
             <div className="book-details">
-                <div className="detail row">
-                <label htmlFor="autor">
-                    <strong>Autor:</strong>
-                </label>
-                <input id="autor" type="text" defaultValue={selectedBook.Autor} disabled={!isEditing} name='Autor'/>
-                </div>
-                <div className="detail row">
-                <label htmlFor="genero">
-                    <strong>Género:</strong>
-                </label>
-                <input id="genero" type="text" defaultValue={selectedBook.Género} disabled={!isEditing} name='Género'/>
-                </div>
-                <div className="detail row">
-                <label htmlFor="idioma">
-                    <strong>Idioma:</strong>
-                </label>
-                <input id="idioma" type="text" defaultValue={selectedBook.Idioma} disabled={!isEditing} name='Idioma'/>
-                </div>
-                <div className="detail row">
-                <label htmlFor="leido">
-                    <strong>Leído?:</strong>
-                </label>
-                <input id="leido" type="text" defaultValue={selectedBook['Leído']} disabled={!isEditing} name='Leído'/>
-                </div>
-                <div className="detail row">
-                <label htmlFor="prestamo">
-                    <strong>Préstamo:</strong>
-                </label>
-                <input id="prestamo" type="text" defaultValue={selectedBook.Préstamo} disabled={!isEditing} name='Préstamo'/>
-                </div>
-                <div className="detail row">
-                <label htmlFor="resena">
-                    <strong>Reseña:</strong>
-                </label>
-                <input id="resena" type="text" defaultValue={selectedBook.Reseña}  disabled={!isEditing} name='Reseña'/>
-                </div>
+                <InputForm name='Autor' label='autor' selectedBook={selectedBook} isEditing={isEditing} >
+                    Autor:
+                </InputForm>
+                <InputForm name='Género' label='genero' selectedBook={selectedBook} isEditing={isEditing} >
+                    Género:
+                </InputForm>
+                <InputForm name='Idioma' label='idioma' selectedBook={selectedBook} isEditing={isEditing} >
+                    Idioma:
+                </InputForm>
+                <InputForm name='Leído' label='leido' selectedBook={selectedBook} isEditing={isEditing} >
+                    Leído?:
+                </InputForm>
+                <InputForm name='Préstamo' label='prestamo' selectedBook={selectedBook} isEditing={isEditing} >
+                    Préstamo
+                </InputForm>
+                <InputForm name="Reseña" label='resena' selectedBook={selectedBook} isEditing={isEditing} >
+                    Reseña:
+                </InputForm>
             </div>
             <div className="book-info-buttons">
                 {isEditing ? 
