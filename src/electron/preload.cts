@@ -15,4 +15,10 @@ contextBridge.exposeInMainWorld('electron', {
     removeBookList: (callback: (event: any, data: any) => void) => {
       ipcRenderer.removeListener('bookList', callback);
     },
+    deleteData: async (deleteData: any) => {
+        console.log("llego a preload")
+        const result = await ipcRenderer.invoke('deleteBook', deleteData);
+        console.log("paso IPC renderer")
+        return result;
+      },
   });

@@ -1,15 +1,17 @@
 
 html, body, #root {
-  background: #f5e9d3; 
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 
-h1, h2, h3 {
+h1, h2, h3,h4 {
   font-family: 'Georgia', 'Palatino Linotype', serif;
   padding-bottom: 1.5rem;
 }
 
+.book-info-page-container {
+  position: relative;
+}
 
 .book-info {
   margin: 40px auto;
@@ -19,6 +21,10 @@ h1, h2, h3 {
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   border: 1px solid #e2d6c8;
+}
+
+.input-editing input {
+border-color:  #ff5722 !important;
 }
 
 .header-book-info-container {
@@ -41,6 +47,7 @@ h1, h2, h3 {
 
 .column-book-info.left,
 .column-book-info.right {
+  position: relative;
   flex: 1;
 }
 
@@ -101,8 +108,20 @@ h1, h2, h3 {
 }
 
 .button-back-to-search {
-  background-color: #6d4c41;
-  color: #fff;
+  background-color: #fffdf8;
+  font-size: x-large;
+  color: #7a5d54;
+  box-shadow: none;
+  margin-right: 2rem;
+}
+
+.button-back-to-search:focus {
+  outline: none;
+}
+
+
+.back-to-search-container {
+  display: flex;
 }
 
 .button-save {
@@ -117,23 +136,86 @@ h1, h2, h3 {
 .button-edit {
   background-color: #6d4c41;
   color: #fff;
+  width: 5.5rem;
+  padding:0px;
+  align-items: center;
+  text-align: center;
+  display:table-cell;
+  vertical-align:middle;
+  line-height: 0px;
+}
+.button-edit .text {
+  margin-left: auto;
+  margin-right: auto;
+}
+.button-edit:focus {
+  outline: none;
 }
 
-.button-edit:hover {
-  border-color: transparent;
-  color:#fff;
-  cursor: default;
+.button-edit:focus {
+  outline: none;
+}
+.editing.button-edit:hover {
+  border-color: #7a5d54;
+  color: #3e2c1f;
 }
 
 .editing {
-  background-color: #a1887f;
-  color: #fff;
+  background-color: #fffdf8;
+  color: #6d4c41;
+  border: 3px solid #7a5d54;
 }
+
+
+.delete-icon-container:hover {
+  background-color: #fffdf8;
+  border-width: 1px;
+}
+
+.delete-icon-container {
+  position: absolute;
+  bottom: 0;
+  right: 10%;
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.delete-icon-container label {
+  font-size: 1rem;
+  color: #5a4631;
+  margin-bottom: 0.5rem;
+}
+
+.delete-icon-container button {
+  background: transparent;
+  border: none;
+  padding: 0.2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+  color: #6d4c41; /* default icon color */
+}
+
+/* Hover effect: slightly enlarge the icon and change its color */
+.delete-icon-container button:hover {
+  transform: scale(1.2);
+  color: #ff5722;
+}
+
+/* Remove any default focus outline */
+.delete-icon-container button:focus {
+  outline: none;
+}
+
 
 #hiddenName {
   display: none;
 }
 
+#delete-icon {
+  size: small;
+}
 
 @media (max-width: 768px) {
   .book-info-container {

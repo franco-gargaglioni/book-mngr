@@ -2,7 +2,7 @@ import {app, BrowserWindow,ipcMain } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { watchDataFile, isDev, updateDataFile } from './util.js';
+import { watchDataFile, isDev, updateDataFile, deleteBook } from './util.js';
 import { getPreloadPath } from './pathResolver.js';
 
 
@@ -33,6 +33,14 @@ app.on('ready', () => {
             const jsonData = await fs.promises.readFile(filePath, 'utf8');
             const prevData = JSON.parse(jsonData);
             const result = await updateDataFile(mainWindow,updatedData,prevData);
+            return result;
+        });
+        
+        ipcMain.handle('deleteBook', async (event, book) => {
+            const filePath = path.resolve(__dirname, 'data/data.json');
+            const jsonData = await fs.promises.readFile(filePath, 'utf8');
+            const prevData = JSON.parse(jsonData);
+            const result = await deleteBook(mainWindow,book,prevData);
             return result;
         });
 

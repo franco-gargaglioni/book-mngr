@@ -1,20 +1,32 @@
 * {
   box-sizing: border-box;
-  margin: 0px;
-  padding: 0px;
-}
-
-html, body, #root {
-  height: 100%;
   margin: 0;
   padding: 0;
-  background: url('./assets/backround.png') repeat;
 }
 
+html, body, #root{
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
 body {
-  background-color: beige;
+  height: 100vh !important;
+  background-color: transparent;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+html {
+  background-image: url( './assets/backround.jpg') !important;
+  background-size:cover !important;
+}
+
+#root {
+  height: 100vh !important;
+  background: transparent;
 }
 
 a {
@@ -46,10 +58,12 @@ button {
   transition: border-color 0.25s;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
+
 button:hover {
   border-color: #fefe9e;
   color: #fbfbaa;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

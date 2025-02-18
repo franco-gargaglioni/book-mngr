@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { IpcRenderer } from 'electron';
+import {FaPlus} from "react-icons/fa";
 import BookInfo from './components/BookInfo.tsx'
 import './App.css';
 import SearchBar from './components/searchBar.tsx';
@@ -68,14 +68,22 @@ function App() {
     return (
       <SelectedBookContext.Provider value={{ selectedBook, setSelectedBook }}>
         <div className='main-container'>
-          {selectedBook ? (
-            <BookInfo />
-          ) : (
-            <div className="searchBarContainer">
-              <SearchBar onSearch={handleSearch} />
-              {isWriting ? <SearchBarList results={results} /> : <></>}
+            <div className='elements-container'>
+                {selectedBook ? (
+                    <BookInfo />
+                ) : (
+                    <div className="searchBarContainer">
+                    <SearchBar onSearch={handleSearch} />
+                    {isWriting ? <SearchBarList results={results} /> : <></>}
+                    </div>
+                )}
+                <div className='button-add-container'>
+                    <button>
+                        <FaPlus></FaPlus>
+                    </button>
+                </div>
             </div>
-          )}
+
         </div>
       </SelectedBookContext.Provider>
     );
