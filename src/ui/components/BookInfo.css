@@ -1,6 +1,5 @@
 
 html, body, #root {
-  background: #f5e9d3; 
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -10,6 +9,9 @@ h1, h2, h3,h4 {
   padding-bottom: 1.5rem;
 }
 
+.book-info-page-container {
+  position: relative;
+}
 
 .book-info {
   margin: 40px auto;
@@ -45,6 +47,7 @@ border-color:  #ff5722 !important;
 
 .column-book-info.left,
 .column-book-info.right {
+  position: relative;
   flex: 1;
 }
 
@@ -105,8 +108,20 @@ border-color:  #ff5722 !important;
 }
 
 .button-back-to-search {
-  background-color: #6d4c41;
-  color: #fff;
+  background-color: #fffdf8;
+  font-size: x-large;
+  color: #7a5d54;
+  box-shadow: none;
+  margin-right: 2rem;
+}
+
+.button-back-to-search:focus {
+  outline: none;
+}
+
+
+.back-to-search-container {
+  display: flex;
 }
 
 .button-save {
@@ -121,27 +136,49 @@ border-color:  #ff5722 !important;
 .button-edit {
   background-color: #6d4c41;
   color: #fff;
+  width: 5.5rem;
+  padding:0px;
+  align-items: center;
+  text-align: center;
+  display:table-cell;
+  vertical-align:middle;
+  line-height: 0px;
+}
+.button-edit .text {
+  margin-left: auto;
+  margin-right: auto;
+}
+.button-edit:focus {
+  outline: none;
+}
+
+.button-edit:focus {
+  outline: none;
+}
+.editing.button-edit:hover {
+  border-color: #7a5d54;
+  color: #3e2c1f;
 }
 
 .editing {
-  background-color: #a1887f;
-  color: #fff;
+  background-color: #fffdf8;
+  color: #6d4c41;
+  border: 3px solid #7a5d54;
 }
 
 
 .delete-icon-container:hover {
-  border: 1px solid #d3c4a6;
-  border-radius: 6px;
   background-color: #fffdf8;
   border-width: 1px;
 }
 
-/* Delete Icon Container Styles */
 .delete-icon-container {
+  position: absolute;
+  bottom: 0;
+  right: 10%;
   padding: 0.6rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
