@@ -88,22 +88,22 @@ export default function BookInfo() {
             </div>
             <div className="column-book-info middle">
             <div className="book-details">
-                <InputForm name='Autor' label='autor' selectedBook={selectedBook} isEditing={isEditing} >
+                <InputForm name='Autor' label='autor' selectedBook={selectedBook} isEditing={isEditing} required={true}>
                     Autor:
                 </InputForm>
-                <InputForm name='Género' label='genero' selectedBook={selectedBook} isEditing={isEditing} >
+                <InputForm name='Género' label='genero' selectedBook={selectedBook} isEditing={isEditing} required={true}>
                     Género:
                 </InputForm>
-                <InputForm name='Idioma' label='idioma' selectedBook={selectedBook} isEditing={isEditing} >
+                <InputForm name='Idioma' label='idioma' selectedBook={selectedBook} isEditing={isEditing} required={true}>
                     Idioma:
                 </InputForm>
-                <InputForm name='Leído' label='leido' selectedBook={selectedBook} isEditing={isEditing} >
+                <InputForm name='Leído' label='leido' selectedBook={selectedBook} isEditing={isEditing} required={true}>
                     Leído?:
                 </InputForm>
-                <InputForm name='Préstamo' label='prestamo' selectedBook={selectedBook} isEditing={isEditing} >
+                <InputForm name='Préstamo' label='prestamo' selectedBook={selectedBook} isEditing={isEditing} required={false}>
                     Préstamo
                 </InputForm>
-                <InputForm name="Reseña" label='resena' selectedBook={selectedBook} isEditing={isEditing} >
+                <InputForm name="Reseña" label='resena' selectedBook={selectedBook} isEditing={isEditing} required={false}>
                     Reseña:
                 </InputForm>
             </div>

@@ -13,13 +13,18 @@ app.on('ready', () => {
     try {
         const preloadPath = getPreloadPath();
 
+        console.log("DIRECTORIO _______________" + app.getAppPath());
+
         const mainWindow = new BrowserWindow({
+        icon: path.join(app.getAppPath(), 'app-icon.png'),
+        //fullscreen: true,
             webPreferences: {
                 preload: preloadPath,
                 contextIsolation: true,
                 nodeIntegration: false,
             },
         });
+
 
         ipcMain.handle('get-book-list', async () => {
             const filePath = path.resolve(__dirname, 'data/data.json');
@@ -55,6 +60,8 @@ app.on('ready', () => {
 
         if (isDev()) {
             mainWindow.loadURL('http://localhost:5123'); // Load the React app in development
+            //mainWindow.maximize();
+            //mainWindow.setMenu(null);
         } else {
             mainWindow.loadFile(path.join(app.getAppPath(), '/dist-react/index.html')); // Load the React app in production
         }

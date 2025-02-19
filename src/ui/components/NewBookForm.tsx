@@ -1,12 +1,13 @@
-import { useContext, useState } from 'react';
+import { useContext, useState,useRef } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
 import ConfirmationModal from "./ConfirmationModal.tsx"
 import InputForm from './InputForm.tsx';
 
-import { FaArrowLeft, FaTrash } from "react-icons/fa"
+import { FaArrowLeft } from "react-icons/fa"
 import { Item } from '../types/types.js';
 import './BookInfo.css';
 import './ConfirmationModal.css'
+import './NewBookForm.css'
 
 
 
@@ -28,6 +29,7 @@ export default function NewBookForm() {
     const { selectedBook, setSelectedBook } = useContext(SelectedBookContext);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [pendingFormData, setPendingFormData] = useState(EmptyItem);
+    const btnRef = useRef<HTMLButtonElement>(null);
 
     if (!createNewBook){
         return null;
@@ -68,10 +70,21 @@ export default function NewBookForm() {
         setShowConfirmModal(true);
     };
 
-    const eraseFields = () => {
+    const eraseFields = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.preventDefault();
+        if (btnRef.current) {
+          btnRef.current.classList.add('is-active');
+          btnRef.current.classList.toggle('is-toggled');
+          btnRef.current.blur();
+          setTimeout(() => {
+            btnRef.current && btnRef.current.classList.remove('is-active');
+          }, 400);
+        }
+
         const myForm = document.getElementById('create-form-id');
         if(myForm) (myForm as HTMLFormElement).reset(); 
     }
+
 
     return (
         <div  className='book-info-page-container'>
@@ -92,35 +105,38 @@ export default function NewBookForm() {
                     </div>
                     <div className="column-book-info middle">
                         <div className="book-details">
-                            <InputForm name='Name' label='name' selectedBook={EmptyItem} isEditing={true} >
+                            <InputForm name='Name' label='name' selectedBook={EmptyItem} isEditing={true} required={true} >
                                 Name:
                             </InputForm>
-                            <InputForm name='Autor' label='autor' selectedBook={EmptyItem} isEditing={true} >
+                            <InputForm name='Autor' label='autor' selectedBook={EmptyItem} isEditing={true} required={true} >
                                 Autor:
                             </InputForm>
-                            <InputForm name='Género' label='genero' selectedBook={EmptyItem} isEditing={true} >
+                            <InputForm name='Género' label='genero' selectedBook={EmptyItem} isEditing={true} required={true} >
                                 Género:
                             </InputForm>
-                            <InputForm name='Idioma' label='idioma' selectedBook={EmptyItem} isEditing={true} >
+                            <InputForm name='Idioma' label='idioma' selectedBook={EmptyItem} isEditing={true}  required={true}>
                                 Idioma:
                             </InputForm>
-                            <InputForm name='Leído' label='leido' selectedBook={EmptyItem} isEditing={true} >
+                            <InputForm name='Leído' label='leido' selectedBook={EmptyItem} isEditing={true} required={true} >
                                 Leído?:
                             </InputForm>
-                            <InputForm name='Préstamo' label='prestamo' selectedBook={EmptyItem} isEditing={true} >
+                            <InputForm name='Préstamo' label='prestamo' selectedBook={EmptyItem} isEditing={true} required={false}>
                                 Préstamo
                             </InputForm>
-                            <InputForm name="Reseña" label='resena' selectedBook={EmptyItem} isEditing={true} >
+                            <InputForm name="Reseña" label='resena' selectedBook={EmptyItem} isEditing={true} required={false}>
                                 Reseña:
                             </InputForm>
                         </div>
                         <div className="book-info-buttons">
                             <button
                                 type='button'
-                                className="button-edit editing"
+                                className="button-edit editing exploding-button js-button"
                                 onClick={eraseFields}
+                                ref={btnRef}
                             >
-                                Erase Fields
+                                  <i className="Button-icon Button-icon--toggled fa fa-heart"></i>
+                                  <i className="Button-icon Button-icon fa fa-heart-o"></i>
+                                Clear
                             </button>
                             <button
                                 type='submit'
