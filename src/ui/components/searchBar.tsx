@@ -11,7 +11,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     return (
         <div className="input-wrapper">        
             <FaSearch id="search-icon" />
-            <input onChange={onSearch} placeholder="Search for you book..."/>
+            <input onChange={onSearch} placeholder="Search for your book..."/>
         </div>
     )
 }
