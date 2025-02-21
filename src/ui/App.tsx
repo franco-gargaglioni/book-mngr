@@ -88,7 +88,7 @@ function App() {
                       {isWriting ? <SearchBarList results={results} /> : null}
                     </div>
                     <div className='button-add-container'>
-                      <button onClick={handleCreateNewBook}>
+                      <button className='button-add' onClick={handleCreateNewBook}>
                         <FaPlus />
                       </button>
                     </div>

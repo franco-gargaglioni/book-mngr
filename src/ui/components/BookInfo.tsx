@@ -20,6 +20,7 @@ export default function BookInfo() {
     return null;
   }
 
+
   const handleBack = () => {
     setSelectedBook(null);
   };
@@ -45,6 +46,12 @@ export default function BookInfo() {
     setShowDeleteModal(false);
     handleDelete();
   };
+
+
+  const handleCancel = () => {
+    setShowDeleteModal(false);
+    setSelectedBook(selectedBook);
+  }
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -124,6 +131,11 @@ export default function BookInfo() {
                     >
                         Save
                     </button>
+                    <div className="delete-icon-container">
+                        <button className="button-delete" type="button" title="Delete this book" onClick={() => setShowDeleteModal(true)}>
+                            <FaTrash id="delete-icon" />
+                        </button>
+                    </div>
                     </>
                     :
                     <> 
@@ -140,16 +152,16 @@ export default function BookInfo() {
                         >
                             Save
                         </button>
+                        <div className="delete-icon-container">
+                            <button className="button-delete" type="button" title="Delete this book" onClick={() => setShowDeleteModal(true)}>
+                                <FaTrash id="delete-icon" />
+                            </button>
+                        </div>
                     </>
                 }
             </div>
             </div>
             <div className="column-book-info right">
-                <div className="delete-icon-container">
-                    <button type="button" title="Delete this book" onClick={() => setShowDeleteModal(true)}>
-                        <FaTrash id="delete-icon" />
-                    </button>
-                </div>
             </div>
 
         </div>
@@ -161,7 +173,7 @@ export default function BookInfo() {
             <p>Are you sure you want to delete this book?</p>
             <div className="confirm-buttons">
                 <button className="confirm" onClick={handleDeleteConfirm}>Confirm</button>
-                <button className="cancel" onClick={() => setShowDeleteModal(false)}>Cancel</button>
+                <button className="cancel" onClick={handleCancel }>Cancel</button>
             </div>
             </div>
         </ConfirmationModal>
