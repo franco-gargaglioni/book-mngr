@@ -38,3 +38,16 @@
   vertical-align:middle;
   line-height: 0px;
 }
+
+.button-add {
+  background: #c4a87b;
+  color: #3e2c1f;
+  border: 2px solid #7a5d54;
+  border-radius: 10px;
+  padding: 0.6rem 1.5rem;
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}

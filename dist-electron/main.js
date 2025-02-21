@@ -49,11 +49,11 @@ app.on('ready', () => {
         });
         if (isDev()) {
             mainWindow.loadURL('http://localhost:5123'); // Load the React app in development
-            //mainWindow.maximize();
-            //mainWindow.setMenu(null);
         }
         else {
             mainWindow.loadFile(path.join(app.getAppPath(), '/dist-react/index.html')); // Load the React app in production
+            mainWindow.maximize();
+            mainWindow.setMenu(null);
         }
         watchDataFile(mainWindow);
     }

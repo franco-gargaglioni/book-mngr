@@ -1,5 +1,8 @@
 .input-wrapper {
-    background-color: white;
+    background-color: #f3e9d2; /* Parchment-like color */
+    border: 1px solid #c4a87b; /* Aged paper border */
+    box-shadow: 0 0 15px rgba(92, 71, 43, 0.2) inset, /* Inner shadow for depth */
+                5px 5px 20px rgba(0, 0, 0, 0.2); /* Outer shadow */
     width: 100%;
     border-radius: 10px;
     height: 2.5rem;
@@ -26,3 +29,7 @@ input:focus{
     color: rgb(110, 24, 24);
     margin-left: 10px;
 }
+
+.book-info::before {
+    display: none;
+  }
