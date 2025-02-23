@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
 import ConfirmationModal from "./ConfirmationModal.tsx"
 import InputForm from './InputForm.tsx';
@@ -13,6 +13,8 @@ import iconImage from "../assets/quill-pen.png"
 
 export default function BookInfo() {
   const { selectedBook, setSelectedBook } = useContext(SelectedBookContext);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [originalValues, setOriginalValues] = useState<Item | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -26,7 +28,15 @@ export default function BookInfo() {
   };
 
   const handleEdit = () => {
-    setIsEditing((prevState) => !prevState);
+    if (!isEditing) {
+        // When entering edit mode, save current values
+        setOriginalValues({ ...selectedBook });
+      } else {
+        // When canceling, restore original values
+        setSelectedBook(originalValues);
+        formRef.current?.reset();
+      }
+      setIsEditing((prev) => !prev);
   };
 
   const handleDelete  = async () => {
@@ -47,14 +57,11 @@ export default function BookInfo() {
     handleDelete();
   };
 
-
-  const handleCancel = () => {
-    setShowDeleteModal(false);
-    setSelectedBook(selectedBook);
-  }
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setOriginalValues(null);
   
     const fd = new FormData(e.currentTarget);
     const editedBook = Object.fromEntries(fd.entries()) as unknown as Item;
@@ -76,7 +83,7 @@ export default function BookInfo() {
 
   return (
     <div className='book-info-page-container'>
-        <form  onSubmit={handleSubmit} className={"book-info " + (isEditing? "input-editing" : "")}>
+        <form ref={formRef} key={selectedBook.Name} onSubmit={handleSubmit} className={"book-info " + (isEditing? "input-editing" : "")}>
         <div className="header-book-info-container">
             <div className='back-to-search-container'>
                 <button className="button-back-to-search" onClick={handleBack}>
@@ -173,7 +180,7 @@ export default function BookInfo() {
             <p>Are you sure you want to delete this book?</p>
             <div className="confirm-buttons">
                 <button className="confirm" onClick={handleDeleteConfirm}>Confirm</button>
-                <button className="cancel" onClick={handleCancel }>Cancel</button>
+                <button className="cancel" onClick={handleEdit}>Cancel</button>
             </div>
             </div>
         </ConfirmationModal>

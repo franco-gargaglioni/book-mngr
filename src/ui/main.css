@@ -20,8 +20,15 @@ body {
 }
 
 html {
-  background-image: url( './assets/backround.jpg') !important;
+  background-image: url( './assets/fantasy.gif') !important;
   background-size:cover !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.html::-webkit-scrollbar{
+  width: 0;
+  height: 0;
 }
 
 #root {
@@ -68,3 +75,4 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
