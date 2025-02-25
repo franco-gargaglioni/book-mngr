@@ -39,6 +39,16 @@
   line-height: 0px;
 }
 
+.dropdown-container{
+  padding-top: 20vh;
+  align-items: center;
+  text-align: center;
+  display:table-cell;
+  vertical-align:middle;
+  line-height: 0px;
+}
+
+
 .button-add {
   background: #c4a87b;
   color: #3e2c1f;
