@@ -1,11 +1,12 @@
 .results-list {
     width: 100%;
-    background-color: white;
+    background-color: #f3e9d2; /* Parchment-like color */
+    border: 1px solid #c4a87b; /* Aged paper border */
+    box-shadow: 0 0 15px rgba(92, 71, 43, 0.2) inset, /* Inner shadow for depth */
+                5px 5px 20px rgba(0, 0, 0, 0.2); /* Outer shadow */
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 0px 8px #ddd;
     border-radius: 10px;
-    margin-top: 1rem;
     max-height: 300px;
     overflow-y: scroll;
 }
