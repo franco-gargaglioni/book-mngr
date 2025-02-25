@@ -56,7 +56,6 @@ export default function BookInfo() {
     setShowDeleteModal(false);
     handleDelete();
   };
-
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
