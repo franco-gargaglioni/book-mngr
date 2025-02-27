@@ -11,7 +11,6 @@ export default function SearchBarResult({ result }: { result: Item }) {
 
     const handleClick = () => {
         setSelectedBook(result);
-        console.log(result);
     };
 
     return (

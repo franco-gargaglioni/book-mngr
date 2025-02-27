@@ -55,7 +55,6 @@ export async function updateDataFile(mainWindow: BrowserWindow, updatedData: any
 export async function deleteBook(mainWindow: BrowserWindow, bookToDelete: any, prevData: any): Promise<{ success: boolean; error?: string; updatedData?: any; }> {
 
     try {
-        console.log(bookToDelete);
         const newJsonFile = prevData.filter((book: any) => book.Name !== bookToDelete.Name)
         await fs.promises.writeFile(filePath, JSON.stringify(newJsonFile, null, 2), 'utf8');
         console.log('Book deleted successfully.');
@@ -71,7 +70,6 @@ export async function deleteBook(mainWindow: BrowserWindow, bookToDelete: any, p
 
 
 export function watchDataFile(mainWindow: BrowserWindow) {
-    console.log(filePath);
 
     fs.readFile(filePath, 'utf8', (err, jsonData) => {
         if (err) {

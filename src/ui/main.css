@@ -20,7 +20,6 @@ body {
 }
 
 html {
-  background-image: url( './assets/fantasy.gif') !important;
   background-size:cover !important;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -74,5 +73,24 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+::-webkit-scrollbar {
+  width: 12px;  /* Adjust width as needed */
+}
+
+::-webkit-scrollbar-track {
+  background: #d2b48c; /* a warm tan resembling aged paper or wood */
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8b4513; /* a rich, old library brown */
+  border-radius: 10px;
+  border: 2px solid #d2b48c;  /* creates a border that blends with the track */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0522d; /* slightly lighter on hover */
 }
 
