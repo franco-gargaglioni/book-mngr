@@ -13,8 +13,6 @@ app.on('ready', () => {
     try {
         const preloadPath = getPreloadPath();
 
-        console.log("DIRECTORIO _______________" + app.getAppPath());
-
         const mainWindow = new BrowserWindow({
         icon: path.join(app.getAppPath(), 'app-icon.png'),
         //fullscreen: true,
@@ -50,7 +48,6 @@ app.on('ready', () => {
         });
 
         ipcMain.handle('createNewBook', async (event, newBook) => {
-            console.log("Calling to create new book");
             const filePath = path.resolve(__dirname, 'data/data.json');
             const jsonData = await fs.promises.readFile(filePath, 'utf8');
             const prevData = JSON.parse(jsonData);

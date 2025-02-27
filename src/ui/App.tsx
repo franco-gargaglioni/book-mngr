@@ -9,6 +9,13 @@ import { SelectedBookContext } from './context/SelectedBookContext';
 
 import {Item} from './types/types.ts'
 import Dropdown from './components/Dropdown.tsx';
+import fatasyGif from './assets/fantasy.gif';
+import spaceGif from './assets/space.gif';
+import PajarosGif from './assets/Pajaros.gif';
+import PlayaGif from './assets/Playa.gif';
+import CascadaGif from './assets/Cascada.gif';
+import InviernoGif from './assets/Invierno.gif';
+import Castillo from './assets/Castillo.gif';
 
 function App() {
     const [results, setResults] = useState<Item[]>([]);
@@ -17,6 +24,7 @@ function App() {
     const [isWriting, setIsWriting] = useState(false);
     const [createNewBook, setCreateNewBook] = useState(false);
     const [categories, setCategories] = useState<string[]>([]);
+    const [showMessage, setShowMessage] = useState(false);
 
     //Para que no aparezca scroll (feo)
     document.body.style.overflow = "scroll"
@@ -33,6 +41,28 @@ function App() {
           console.error('Error subscribing to book list:', err);
         }
       };
+
+      const backgrounds: { [key: number]: string } = {
+        0: `url(${PajarosGif})`,
+        1: `url(${PlayaGif})`,
+        2: `url(${CascadaGif})`,
+        3: `url(${spaceGif})`,
+        4: `url(${InviernoGif})`,
+        5: `url(${Castillo})`,
+        6: `url(${fatasyGif})`,
+      };
+  
+      const today = new Date().getDay();
+      const backgroundImage = backgrounds[today];
+  
+      // Set the background on the <html> element
+      const htmlEl = document.documentElement;
+      htmlEl.style.backgroundImage = backgroundImage;
+      htmlEl.style.backgroundSize = 'cover';
+      htmlEl.style.backgroundRepeat = 'repeat';
+
+
+
   
       fetchBooks();
       return () => {
@@ -40,7 +70,6 @@ function App() {
     }, []);
 
     const fetchCategories = async (books:any) => {
-      console.log("TRYING TO FETCH CATEGORIES");
       try {
         const categoriesSet = new Set(books.map((item:Item) => {
           if (item["Género"] != "" && item["Género"] != null){
@@ -49,6 +78,7 @@ function App() {
         })
         );
         const categories = Array.from(categoriesSet) as string[];
+        categories.unshift("ALL")   
         setCategories(categories);
       } catch (err) {
         console.error('Error while fetching categories:', err);
@@ -59,7 +89,6 @@ function App() {
         const handleBookListUpdate = (_event: any, updatedBooks: Item[]) => {
           setOriginalResults(updatedBooks);
           setResults(updatedBooks);
-          fetchCategories(updatedBooks);
         };
     
         //@ts-ignore
@@ -79,14 +108,12 @@ function App() {
       if (searchTerm === '') {
         setIsWriting(false);
         setResults(originalResults);
-        fetchCategories(originalResults);
       } else {
         const filteredResults = originalResults.filter((item) =>
           item.Name.toLowerCase().includes(searchTerm)
           || item.Autor.toLowerCase().includes(searchTerm)
         );
         setResults(filteredResults);
-        fetchCategories(originalResults);
       }
     };
 
@@ -96,22 +123,25 @@ function App() {
 
     const handleCategorieFilter = (searchTerm: string) => {
       setIsWriting(true);
-  
-      if (searchTerm === '') {
-        setIsWriting(false);
+      let filteredResults: any;
+      if (searchTerm === "ALL") {
         setResults(originalResults);
         fetchCategories(originalResults);
+        filteredResults = originalResults; 
       } else {
-        console.log("TERMINO DE BUSQUEDA" + searchTerm);
-        const filteredResults = originalResults.filter((item) =>{
+        filteredResults = originalResults.filter((item) =>{
           return item.Género.toLowerCase().includes(searchTerm.toLowerCase());
         }
         );
-        console.log(filteredResults);
         setResults(filteredResults);
         fetchCategories(originalResults);
       }
     }
+
+    const handleHiddenClick = () => {
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 3000); // Message disappears after 3 seconds
+    };
   
 
     return (
@@ -151,6 +181,18 @@ function App() {
               }
             })()}
           </div>
+
+          {/* Hidden clickable area (styled to be unobtrusive) */}
+          <div className="hidden-click-area" onClick={handleHiddenClick}>
+            {/* This area can be empty or have a subtle indicator */}
+          </div>
+
+          {/* Toast message */}
+          {showMessage && (
+            <div className="toast-message">
+              Love you! Frank.
+            </div>
+          )}
         </SelectedBookContext.Provider>
       );
   }

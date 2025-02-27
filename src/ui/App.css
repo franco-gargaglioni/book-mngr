@@ -61,3 +61,41 @@
   transition: all 0.3s ease;
   cursor: pointer;
 }
+
+.hidden-click-area {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  /* Optional: make it semi-transparent so it's not obvious */
+  opacity: 0.2;
+  cursor: pointer;
+  background-color: #000;
+  border-radius: 50%;
+  z-index: 100; /* Ensure it's above other elements */
+}
+
+/* Toast message styling */
+.toast-message {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(150, 71, 187, 0.8);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  z-index: 1000;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Optional fade in/out animations */
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeout {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

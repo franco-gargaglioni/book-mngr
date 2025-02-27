@@ -2,6 +2,7 @@ import { useContext, useState,useRef } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
 import ConfirmationModal from "./ConfirmationModal.tsx"
 import InputForm from './InputForm.tsx';
+import StarRating from './StarRatingProps.tsx';
 
 import { FaArrowLeft } from "react-icons/fa"
 import { Item } from '../types/types.js';
@@ -30,6 +31,7 @@ export default function NewBookForm() {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [pendingFormData, setPendingFormData] = useState(EmptyItem);
     const btnRef = useRef<HTMLButtonElement>(null);
+    const [rating, setRating] = useState<number>(0);
 
     if (!createNewBook){
         return null;
@@ -65,6 +67,7 @@ export default function NewBookForm() {
         e.preventDefault();
 
         const fd = new FormData(e.currentTarget);
+        transformRating(fd);
         const newBook = Object.fromEntries(fd.entries()) as unknown as Item;
         setPendingFormData(newBook);
         setShowConfirmModal(true);
@@ -84,6 +87,26 @@ export default function NewBookForm() {
         const myForm = document.getElementById('create-form-id');
         if(myForm) (myForm as HTMLFormElement).reset(); 
     }
+
+    const handleRatingChange = (newRating: number) => {
+          setRating(newRating);
+      };
+
+      const transformRating = (form: FormData) => {
+        const ratingValue = form.get("Reseña");
+        const numericRating = Number(ratingValue);
+        let estrellas = "";
+        
+        if (numericRating === 0) {
+          form.set("Reseña", "❔");
+        } else {
+          for (let i = 0; i < numericRating; i++) {
+            estrellas = estrellas.concat("⭐");
+          }
+          form.set("Reseña", estrellas);
+        }
+      };
+    
 
 
     return (
@@ -123,9 +146,13 @@ export default function NewBookForm() {
                             <InputForm name='Préstamo' label='prestamo' selectedBook={EmptyItem} isEditing={true} required={false}>
                                 Préstamo
                             </InputForm>
-                            <InputForm name="Reseña" label='resena' selectedBook={EmptyItem} isEditing={true} required={false}>
-                                Reseña:
-                            </InputForm>
+                            <div className="detail row">
+                            <label htmlFor="resena">
+                                <strong>Reseña:</strong>
+                            </label>
+                            <input style={{display: 'none'}} required={true} id="resena" type="text" defaultValue={rating} value={rating}  name="Reseña"/>
+                            <StarRating rating={rating} onRatingChange={handleRatingChange} />
+                            </div>
                         </div>
                         <div className="book-info-buttons">
                             <button

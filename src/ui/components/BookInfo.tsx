@@ -1,7 +1,8 @@
-import { useContext, useState, useRef } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
 import ConfirmationModal from "./ConfirmationModal.tsx"
 import InputForm from './InputForm.tsx';
+import StarRating from './StarRatingProps.tsx';
 
 import {FaArrowLeft, FaTrash} from "react-icons/fa"
 import './BookInfo.css';
@@ -17,10 +18,21 @@ export default function BookInfo() {
   const [originalValues, setOriginalValues] = useState<Item | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [rating, setRating] = useState<number>(0);
 
   if (!selectedBook) {
     return null;
   }
+
+  useEffect(() => {
+    const score = selectedBook["Reseña"];
+
+    if (score === "❔")
+      setRating(0);
+    else {
+      setRating(score.length)
+    }
+  }, [])
 
 
   const handleBack = () => {
@@ -59,13 +71,11 @@ export default function BookInfo() {
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setOriginalValues(null);
   
     const fd = new FormData(e.currentTarget);
+    transformRating(fd);
     const editedBook = Object.fromEntries(fd.entries()) as unknown as Item;
-    console.log('Edited Book:', editedBook);
-  
     try {
       //@ts-ignore
       const result = await window.electron.updateData(editedBook);
@@ -77,6 +87,27 @@ export default function BookInfo() {
       }
     } catch (err) {
       console.error('Error updating data:', err);
+    }
+  };
+
+  const handleRatingChange = (newRating: number) => {
+    if (isEditing){
+      setRating(newRating);
+    }
+  };
+
+  const transformRating = (form: FormData) => {
+    const ratingValue = form.get("Reseña");
+    const numericRating = Number(ratingValue);
+    let estrellas = "";
+    
+    if (numericRating === 0) {
+      form.set("Reseña", "❔");
+    } else {
+      for (let i = 0; i < numericRating; i++) {
+        estrellas = estrellas.concat("⭐");
+      }
+      form.set("Reseña", estrellas);
     }
   };
 
@@ -116,9 +147,16 @@ export default function BookInfo() {
                 <InputForm name='Préstamo' label='prestamo' selectedBook={selectedBook} isEditing={isEditing} required={false}>
                     Préstamo
                 </InputForm>
-                <InputForm name="Reseña" label='resena' selectedBook={selectedBook} isEditing={isEditing} required={false}>
-                    Reseña:
-                </InputForm>
+                <div className="detail row">
+                  <label htmlFor="resena">
+                    <strong>Reseña:</strong>
+                  </label>
+                  <input style={{display: 'none'}} required={true} id="resena" type="text" defaultValue={rating} value={rating}  disabled={!isEditing} name="Reseña"/>
+                  <StarRating rating={rating} onRatingChange={handleRatingChange} />
+                </div>
+
+
+                
             </div>
             <div className="book-info-buttons">
                 {isEditing ? 
