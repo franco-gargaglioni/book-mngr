@@ -1,4 +1,4 @@
-import { useContext, useState, useRef } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { SelectedBookContext } from '../context/SelectedBookContext';
 import ConfirmationModal from "./ConfirmationModal.tsx"
 import InputForm from './InputForm.tsx';
@@ -10,6 +10,7 @@ import './ConfirmationModal.css'
 import { Item } from '../types/types.js'; 
 
 import iconImage from "../assets/quill-pen.png"
+import ChatGPTInfo from './ChatGPTInfo.tsx';
 
 export default function BookInfo() {
   const { selectedBook, setSelectedBook } = useContext(SelectedBookContext);
@@ -17,10 +18,33 @@ export default function BookInfo() {
   const [originalValues, setOriginalValues] = useState<Item | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [chatSummary, setChatSummary] = useState("No summary available");
 
   if (!selectedBook) {
     return null;
   }
+
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const propmt = "Would you please create a summary for the book titled " + selectedBook.Name + " from the author " + selectedBook.Autor + 
+         " Your response should be direct. Do not begin with words such as 'Sure', 'Certainly', 'Absolutely', etc. Respond in 5 sentences maximun ( of maximum 15 words). " +
+         "Avoid mentioning any details that could ruin the experience for someone who hasn't seen/read it. " + 
+         "Do not create ficticional info. Always present fact-checked information.";
+        //@ts-ignore
+        const summary = await window.electron.createSummary(propmt);
+        setChatSummary(summary);
+        console.log(summary);
+      } catch (err) {
+        console.error('Error fetching chatGPT summary', err);
+      }
+    };
+
+    fetchSummary();
+    return () => {
+    };
+  }, []);
 
 
   const handleBack = () => {
@@ -80,6 +104,7 @@ export default function BookInfo() {
       console.error('Error updating data:', err);
     }
   };
+
 
   return (
     <div className='book-info-page-container'>
@@ -169,6 +194,7 @@ export default function BookInfo() {
             </div>
             </div>
             <div className="column-book-info right">
+                <ChatGPTInfo content={chatSummary} />
             </div>
 
         </div>

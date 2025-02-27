@@ -5,9 +5,7 @@ import App from './App.tsx'
 import { SelectedBookProvider } from './context/SelectedBookContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
     <SelectedBookProvider>
         <App />
-    </SelectedBookProvider>
-  </StrictMode>,
+    </SelectedBookProvider>,
 )

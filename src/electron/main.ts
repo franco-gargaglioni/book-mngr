@@ -4,6 +4,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { watchDataFile, isDev, updateDataFile, deleteBook, createNewBook } from './util.js';
 import { getPreloadPath } from './pathResolver.js';
+import { createSummary } from './chatGPT.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -57,6 +58,12 @@ app.on('ready', () => {
             const result = await createNewBook(mainWindow,newBook,prevData);
             return result;
         });
+
+        ipcMain.handle('createSummary', async (event, data) => {
+            const result = await createSummary(mainWindow,data);
+            console.log(result);
+            return result;
+        })
 
         if (isDev()) {
             mainWindow.loadURL('http://localhost:5123'); // Load the React app in development

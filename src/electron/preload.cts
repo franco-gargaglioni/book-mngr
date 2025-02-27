@@ -23,4 +23,8 @@ contextBridge.exposeInMainWorld('electron', {
         const result = await ipcRenderer.invoke('createNewBook', newBook);
         return result;
       },
+      createSummary: async(data:any) => {
+        const result = await ipcRenderer.invoke('createSummary', data);
+        return result;
+      }
   });

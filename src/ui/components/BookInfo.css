@@ -112,7 +112,7 @@ h1 {
 .delete-icon-container {
   position: absolute;
   right: 5%;
-  bottom: 2.5%;
+  top: 2.5%;
   padding: 0.6rem;
   display: flex;
   flex-direction: column;
